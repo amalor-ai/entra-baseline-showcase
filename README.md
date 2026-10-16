@@ -2,7 +2,14 @@
 
 **Your tenant hardened in 3 days, kept hardened every week, with proof for your auditor.**
 
-Built and maintained by [AMALOR](https://amalor.ai). This repository is a public overview. The module itself is private and delivered as a service.
+Built and maintained by [AMALOR](https://amalor.ai).
+
+> **About this repository**
+> This is a showcase, not a ready-to-use solution. It explains how the baseline works and shows illustrative examples. The examples are incomplete on purpose and were generated against a test environment.
+>
+> **Do not deploy the example policies as they are.** Every tenant is different: licenses, service accounts, legacy applications, external partners and existing policies all change what is safe. Conditional Access applied without an assessment and a report-only phase can lock users, or administrators, out of their tenant.
+>
+> The full module, the complete baseline and the delivery process are private and provided as a service, starting with a read-only assessment of your tenant.
 
 ---
 
