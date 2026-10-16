@@ -1,0 +1,14 @@
+{
+  "id": "CA003",
+  "name": "Require MFA for all users",
+  "requires": "P1",
+  "why": "Stops the majority of account takeovers. Run in report-only for at least a week before enforcing.",
+  "policy": {
+    "conditions": {
+      "users": { "includeUsers": [ "All" ], "excludeGroups": [ "{{BreakGlassGroupId}}" ] },
+      "applications": { "includeApplications": [ "All" ] },
+      "clientAppTypes": [ "all" ]
+    },
+    "grantControls": { "operator": "OR", "builtInControls": [ "mfa" ] }
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "AMALOR Entra Baseline client config",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["client", "tenantId", "baselineVersion", "packs", "breakGlass"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "client": { "type": "string", "pattern": "^[a-z0-9-]+$", "description": "Short slug, used in reports and folder names" },
+    "tenantId": { "type": "string", "pattern": "^[0-9a-fA-F-]{36}$" },
+    "baselineVersion": { "type": "string", "pattern": "^\\d+\\.\\d+$", "description": "Major.minor of the module this config was approved for" },
+    "packs": {
+      "type": "array",
+      "minItems": 1,
+      "uniqueItems": true,
+      "items": { "enum": ["BreakGlass", "ConditionalAccess", "Delegation"] }
+    },
+    "breakGlass": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["accounts", "exclusionGroupId"],
+      "properties": {
+        "accounts": { "type": "array", "minItems": 2, "items": { "type": "string" }, "description": "UPNs of the cloud-only emergency accounts" },
+        "exclusionGroupId": { "type": "string", "pattern": "^[0-9a-fA-F-]{36}$", "description": "Group excluded from every AMALOR CA policy" }
+      }
+    },
+    "conditionalAccess": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "policies": { "type": "array", "items": { "type": "string", "pattern": "^CA\\d{3}$" }, "description": "Subset of baseline policies. Omit for all." },
+        "enforce": { "type": "array", "items": { "type": "string", "pattern": "^CA\\d{3}$" }, "description": "Policies the client approved to switch from report-only to enforced" }
+      }
+    },
+    "delegation": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "administrativeUnits": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["name"],
+            "properties": {
+              "name": { "type": "string" },
+              "description": { "type": "string" },
+              "restricted": { "type": "boolean", "default": false, "description": "Restricted management AU. Can only be set at creation." },
+              "dynamicRule": { "type": "string", "description": "Dynamic membership rule for users, e.g. (user.companyName -eq \"Contoso Pflege\")" },
+              "roles": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["role", "principalId"],
+                  "properties": {
+                    "role": { "type": "string", "description": "Role display name, e.g. Helpdesk Administrator" },
+                    "principalId": { "type": "string", "pattern": "^[0-9a-fA-F-]{36}$", "description": "Group or user that receives the role (prefer role-assignable groups)" }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
